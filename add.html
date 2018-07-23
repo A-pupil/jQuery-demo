@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Document</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			
+			ul {
+				margin: 10px auto;
+				width: 1000px;
+				height: 300px;
+				
+			}
+			
+			ul li {
+				width: 100%;
+				height: 60px;
+				/* background: pink; */
+				line-height: 60px;
+				border: 1px solid #000;
+			}
+			ul li~li{
+				border-top: 0;
+			}
+			ul li strong {
+				display: inline-block;
+				width: 90px;
+				height: 100%;
+				background: #eee;
+				text-align: center;
+			}
+			
+			ul li a {
+				color: #000;
+				text-decoration: none;
+				/* background: deeppink; */
+				display: inline-block;
+				padding: 0 9px;
+			}
+			
+			nav {
+				height: 55px;
+				margin: 10px auto;
+				width: 1000px;
+				border: 1px solid red;
+			}
+			
+			nav span {
+				margin: 2px 5px;
+				border: 1px solid red;
+				display: inline-block;
+				padding: 0 16px 0 6px;
+				font-size: 13px;
+				position: relative;
+				color: red;
+			}
+			
+			nav a {
+				text-decoration: none;
+				color: #000;
+				position: absolute;
+				top: 0;
+				right: 2px;
+				display: inline-block;
+				width: 16px;
+				height: 16px;
+				/* background: red; */
+				text-align: center;
+				line-height: 16px;
+				font-size: 18px;
+			}
+			
+			.show {
+				color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul>
+			<li>
+				<strong class="aa">手机:</strong>
+				<a href="javascript:;">锤子T1</a>
+				<a href="javascript:;">锤子T2</a>
+				<a href="javascript:;">坚果U1</a>
+				<a href="javascript:;">锤子M1</a>
+				<a href="javascript:;">坚果Pro</a>
+			</li>
+			<li>
+				<strong class="aa">价格:</strong>
+				<a href="javascript:;">3200</a>
+				<a href="javascript:;">2600</a>
+				<a href="javascript:;">899</a>
+				<a href="javascript:;">2799</a>
+				<a href="javascript:;">2299</a>
+			</li>
+			<li>
+				<strong class="aa">屏幕:</strong>
+				<a href="javascript:;">399</a>
+				<a href="javascript:;">600英寸</a>
+				<a href="javascript:;">800</a>
+				<a href="javascript:;">1200</a>
+			</li>
+			<li>
+				<strong class="aa">地区:</strong>
+				<a href="javascript:;">背景</a>
+				<a href="javascript:;">齐齐哈尔市</a>
+				<a href="javascript:;">新疆乌鲁木齐</a>
+				<a href="javascript:;">上海东方明珠</a>
+			</li>
+			<li>
+				<strong class="aa">地区:</strong>
+				<a href="javascript:;">背景</a>
+				<a href="javascript:;">齐齐哈尔市</a>
+				<a href="javascript:;">新疆乌鲁木齐</a>
+				<a href="javascript:;">上海东方明珠上海东方明珠上海东方明珠上海东方明珠</ a>
+			</li>
+		</ul>
+		<nav></nav>
+		<script>
+			// 获取页面中的nav标签
+			var nav = document.querySelector('nav');
+			// 获取页面中所有的li标签
+			var li = document.querySelectorAll('li');
+			//定义一个空数组 用于存放id值
+			var ids = [];
+			// 循环遍历页面中的li
+			for(var i = 0; i < li.length; i++) {
+				setClick(li[i], i) //第一个值是对象 ，第二个是index
+				console.log(li[i])
+			}
+			// 定义一个函数
+			function setClick(parent, index) {
+				//获取li下的所有a标签
+				var option = parent.getElementsByTagName('a');
+				var str = parent.getElementsByTagName('aa')
+				// 循环遍历所有a
+				for(var i = 0; i < option.length; i++) {
+					//给每一个a标签定义点击事件
+					option[i].onclick = function() {
+						//再次循环遍历所有的a把a的类名去掉
+						// 排他思想
+						for(var i = 0; i < option.length; i++) {
+							option[i].className = '';
+						}
+						// 点击当前变成红色
+						this.className = 'show';
+						var span = ids[index]; //每个数组中都有index
+						if(ids[index]) { //如果ids中有值那么久是true 否则 false           
+							console.log(this.innerHTML)
+							span.children[0].innerHTML = this.innerHTML;
+							return;
+						}
+
+						span = document.createElement("span")
+						var a = document.createElement("a");
+						var strong = document.createElement('strong');
+						a.innerHTML = 'x';
+						a.href = 'javascript:;';
+						a.onclick = function() {
+							nav.removeChild(span);
+							ids[index] = ""
+							// 删除元素清空数组对象
+							for(var i = 0; i < option.length; i++) {
+								option[i].className = '';
+							}
+						}
+						strong.innerHTML = "价格：" + this.innerHTML;
+						// console.log(strong.innerHTML)
+						span.appendChild(strong)
+						span.appendChild(a);
+						ids[index] = span;
+						//元素生成之后，先存入数组的对应位置
+						//按照数组的顺序重新添加一遍元素
+						for(var i = 0; i < ids.length; i++) {
+							if(ids[i]) {
+								nav.appendChild(ids[i]);
+							}
+						}
+					}
+				}
+			}
+		</script>
+	</body>
+
+</html>
